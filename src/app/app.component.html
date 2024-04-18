@@ -1,7 +1,8 @@
 <div class="container">
   <h2>Observables in Angular</h2>
-  <div class="data-list" id="container">
+  <div class="data-list" *ngFor="let x of data">
+    {{x}}
   </div>
 
-  <button #createbtn>Create new Item</button>
+  <button (click)="GetAsyncData()">Get Data</button>
 </div>

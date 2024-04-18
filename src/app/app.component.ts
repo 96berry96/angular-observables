@@ -1,7 +1,6 @@
 import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
-import { from, fromEvent } from 'rxjs';
-import { of } from 'rxjs';
-import { Observable } from 'rxjs';
+import { from, fromEvent, of, Observable } from 'rxjs';
+import { filter, map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-root',
@@ -22,10 +21,20 @@ export class AppComponent implements AfterViewInit {
   array1 = [1,3,5,7,9];
   array2 = ['A', 'B', 'C', 'D'];
 
-  myObservable = from(this.array1);
+  myObservable = from([2,4,6,8,10,12]);
+
+  filteredObs = this.myObservable.pipe(map((val)=>{
+    return val * 5;
+  }), filter((val, i)=>{
+    return val % 4 === 0
+  }))
+
+  // filteredObs = this.myObservable.pipe(filter((val, i)=>{
+  //   return val % 4 === 0
+  // }))
 
   GetAsyncData(){
-    this.myObservable.subscribe({
+    this.filteredObs.subscribe({
       next: (data: any) => {
         this.data.push(data)
       },
@@ -43,26 +52,25 @@ export class AppComponent implements AfterViewInit {
     })
   }
 
-  buttonClicked(){
-    let count = 0;
+  // buttonClicked(){
+  //   let count = 0;
 
-    this.createBtnObs = fromEvent(this.createBtn.nativeElement, 'click')
-      .subscribe({
-        next: (data) => {
-          console.log(data);
-          this.showItem(count++);
-        }
-      })
-  }
+  //   this.createBtnObs = fromEvent(this.createBtn.nativeElement, 'click')
+  //     .subscribe({
+  //       next: (data) => {
+  //         console.log(data);
+  //         this.showItem(count++);
+  //       }
+  //     })
+  // }
 
   ngAfterViewInit(){
-    this.buttonClicked();
   }
 
-  showItem(val){
-    let div = document.createElement('div');
-    div.innerText= 'Item '+val;
-    div.className = 'data-list';
-    document.getElementById('container').appendChild(div);
-  }
+  // showItem(val){
+  //   let div = document.createElement('div');
+  //   div.innerText= 'Item '+val;
+  //   div.className = 'data-list';
+  //   document.getElementById('container').appendChild(div);
+  // }
 }
