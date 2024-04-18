@@ -1,9 +1,7 @@
 <div class="container">
   <h2>Observables in Angular</h2>
-  <p *ngIf="complete">Data has been streamed</p>
-  <div class="data-list" *ngFor="let x of data">
-    {{x}}
+  <div class="data-list" id="container">
   </div>
 
-  <button (click)="GetAsyncData()">Get Data</button>
+  <button #createbtn>Create new Item</button>
 </div>
